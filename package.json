@@ -13,26 +13,37 @@
     "normal form",
     "canonicalization"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kuzzleio/espresso-logic-minimizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kuzzleio/espresso-logic-minimizer/issues"
+  },
+  "homepage": "https://github.com/kuzzleio/espresso-logic-minimizer#readme",
   "scripts": {
     "configure": "node-gyp configure",
     "build": "node-gyp build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/scottinet/espresso-logic-minimizer.git"
-  },
   "dependencies": {
-    "bindings": "^1.5.0",
-    "debug": "^4.1.1",
-    "nan": "^2.14.0",
-    "tmp": "0.1.0"
+    "bindings": "1.5.0",
+    "debug": "4.4.0",
+    "nan": "2.22.0",
+    "tmp": "0.2.3"
   },
   "devDependencies": {
-    "node-gyp": "^6.0.0"
+    "node-gyp": "11.0.0",
+    "@commitlint/cli": "19.6.1",
+    "@commitlint/config-conventional": "19.6.0",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/commit-analyzer": "13.0.1",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/release-notes-generator": "14.0.3",
+    "semantic-release-config-kuzzle": "1.0.0",
+    "semantic-release-slack-bot": "4.0.2"
   },
   "engines": {
-    "node": ">= 4.4.5",
-    "npm": ">= 2.14.4"
+    "node": ">=18.0.0 <23.0.0"
   },
   "license": "MIT"
 }
