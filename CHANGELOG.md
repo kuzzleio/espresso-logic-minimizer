@@ -1,3 +1,11 @@
+## [2.2.0](https://github.com/kuzzleio/espresso-logic-minimizer/compare/v2.1.1...v2.2.0) (2025-12-02)
+
+
+### Features
+
+* bump deps ([f97d62a](https://github.com/kuzzleio/espresso-logic-minimizer/commit/f97d62a8b916b602f3872cf684b42b08068e6f22))
+* node 20 22 24 ([e109ffc](https://github.com/kuzzleio/espresso-logic-minimizer/commit/e109ffc9259908e1cc2ec42536904766670cfda6))
+
 ## [2.1.1](https://github.com/kuzzleio/espresso-logic-minimizer/compare/v2.1.0...v2.1.1) (2025-01-15)
 
 
