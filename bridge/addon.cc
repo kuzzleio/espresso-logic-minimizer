@@ -1,43 +1,37 @@
-#include <v8.h>
-#include <node.h>
-#include <nan.h>
-#include <stdlib.h>
+#include <napi.h>
+#include <cstdlib>
+#include <cstring>
 
 extern "C" char ** run_espresso_from_data(char ** data, unsigned int length);
 extern "C" char ** run_espresso_from_path(char * path);
 
-NAN_METHOD(minimize_from_data) {
-  v8::Local<v8::Array>
-    array = info[0].As<v8::Array>(),
-    returnValue = Nan::New<v8::Array>();
-  unsigned int length = array->Length();
+Napi::Array minimize_from_data(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  Napi::Array array = info[0].As<Napi::Array>();
+  Napi::Array returnValue = Napi::Array::New(env);
+  unsigned int length = array.Length();
   char
     **truthTable,
     **result;
 
   // returns an empty array if no input is provided
   if (length == 0) {
-    info.GetReturnValue().Set(returnValue);
-    return;
+    return returnValue;
   }
 
   truthTable = new char*[length];
 
-  v8::Local<v8::Context> context = info.GetIsolate()->GetCurrentContext();
   for(unsigned int i = 0; i < length; ++i) {
-    v8::Local<v8::String> src = array->Get(context, i)
-      .ToLocalChecked()
-      .As<v8::String>();
-    Nan::Utf8String val(src);
-    truthTable[i] = new char[strlen(*val)+1];
-    strcpy(truthTable[i], *val);
+    std::string val = array.Get(i).As<Napi::String>().Utf8Value();
+    truthTable[i] = new char[val.size() + 1];
+    strcpy(truthTable[i], val.c_str());
   }
 
   result = run_espresso_from_data(truthTable, length);
 
   if (result != NULL) {
     for(unsigned int i = 0; result[i] != NULL; ++i) {
-      Nan::Set(returnValue, i, Nan::New(result[i]).ToLocalChecked());
+      returnValue.Set(i, Napi::String::New(env, result[i]));
 
       // since the result comes from C code, the memory was
       // allocated using malloc and must be freed with free
@@ -48,29 +42,30 @@ NAN_METHOD(minimize_from_data) {
   }
 
   // memory clean up
-  for(unsigned int i = 0; i < length; delete truthTable[i++]);
-  delete truthTable;
+  for(unsigned int i = 0; i < length; ++i) {
+    delete[] truthTable[i];
+  }
+  delete[] truthTable;
 
-  info.GetReturnValue().Set(returnValue);
+  return returnValue;
 }
 
-NAN_METHOD(minimize_from_path) {
-  v8::Local<v8::String> path = info[0].As<v8::String>();
-  v8::Local<v8::Array> returnValue = Nan::New<v8::Array>();
+Napi::Array minimize_from_path(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  std::string path = info[0].As<Napi::String>().Utf8Value();
+  Napi::Array returnValue = Napi::Array::New(env);
   char **result;
 
   // returns an empty array if no path
-  if (path->Length() == 0) {
-    info.GetReturnValue().Set(returnValue);
-    return;
+  if (path.empty()) {
+    return returnValue;
   }
 
-  Nan::Utf8String c_pathstr(path);
-  result = run_espresso_from_path(*c_pathstr);
+  result = run_espresso_from_path(const_cast<char*>(path.c_str()));
 
   if (result != NULL) {
     for(unsigned int i = 0; result[i] != NULL; ++i) {
-      Nan::Set(returnValue, i, Nan::New(result[i]).ToLocalChecked());
+      returnValue.Set(i, Napi::String::New(env, result[i]));
 
       // since the result comes from C code, the memory was
       // allocated using malloc and must be freed with free
@@ -80,12 +75,13 @@ NAN_METHOD(minimize_from_path) {
     free(result);
   }
 
-  info.GetReturnValue().Set(returnValue);
+  return returnValue;
 }
 
-NAN_MODULE_INIT(init) {
-  Nan::Set(target, Nan::New("minimize_from_data").ToLocalChecked(), Nan::GetFunction(Nan::New<v8::FunctionTemplate>(minimize_from_data)).ToLocalChecked());
-  Nan::Set(target, Nan::New("minimize_from_path").ToLocalChecked(), Nan::GetFunction(Nan::New<v8::FunctionTemplate>(minimize_from_path)).ToLocalChecked());
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports.Set("minimize_from_data", Napi::Function::New(env, minimize_from_data));
+  exports.Set("minimize_from_path", Napi::Function::New(env, minimize_from_path));
+  return exports;
 }
 
-NODE_MODULE(EspressoLogicMinimizer, init)
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, Init)

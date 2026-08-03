@@ -55,9 +55,13 @@
                 "espresso-src/verify.c"
             ],
              "include_dirs" : [
-                  "<!(node -e \"require('nan')\")",
+                  "<!@(node -p \"require('node-addon-api').include\")",
                   "espresso-src"
-            ]
+            ],
+            "dependencies" : [
+                  "<!(node -p \"require('node-addon-api').targets\"):node_addon_api"
+            ],
+            "defines": ["NAPI_DISABLE_CPP_EXCEPTIONS"]
         }
     ]
 }

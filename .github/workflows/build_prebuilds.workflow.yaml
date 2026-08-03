@@ -1,0 +1,57 @@
+name: Build native prebuilds
+
+# Builds the native addon for every supported (arch x libc) target and
+# uploads each as a workflow artifact. Since the addon uses Node-API (N-API),
+# a single build per target works across all supported Node.js versions -
+# there is no need to build once per Node major version.
+on:
+  workflow_call:
+
+jobs:
+  prebuild:
+    name: linux-${{ matrix.arch }} (${{ matrix.libc }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+        libc: [glibc, musl]
+        include:
+          - libc: glibc
+            image: node:22-bookworm
+            setup: apt-get update && apt-get install -y --no-install-recommends build-essential python3
+          - libc: musl
+            image: node:22-alpine
+            setup: apk add --no-cache build-base python3
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        if: matrix.arch == 'arm64'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Build prebuild in container
+        run: |
+          docker run --rm \
+            --platform "linux/${{ matrix.arch }}" \
+            -v "$PWD:/repo" -w /repo \
+            "${{ matrix.image }}" \
+            sh -c '
+              set -e
+              ${{ matrix.setup }}
+              corepack enable
+              pnpm install --frozen-lockfile --ignore-scripts
+              pnpm exec prebuildify --napi --arch ${{ matrix.arch }} --tag-libc --strip
+            '
+
+      - name: Fix artifact ownership
+        run: sudo chown -R "$(id -u):$(id -g)" prebuilds
+
+      - name: Upload prebuild artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuilds-${{ matrix.libc }}-${{ matrix.arch }}
+          path: prebuilds/
+          if-no-files-found: error

@@ -8,6 +8,15 @@ The original source code comes from the [University of California, Berkeley](htt
 
 `npm install espresso-logic-minimizer`
 
+This package ships prebuilt native binaries for Linux x64 and arm64, on both glibc and musl (Alpine). If none match the host, it falls back to compiling from source via `node-gyp` (requires a C/C++ toolchain and Python).
+
+If installing with pnpm, pnpm's default security settings block this package's install script (which selects the right prebuilt binary) unless approved. Run `pnpm approve-builds kuzzle-espresso-logic-minimizer`, or add it to `allowBuilds` in your `pnpm-workspace.yaml`:
+
+```yaml
+allowBuilds:
+  kuzzle-espresso-logic-minimizer: true
+```
+
 # API
 
 ## minimize(truthTable)

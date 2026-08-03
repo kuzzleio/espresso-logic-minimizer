@@ -22,21 +22,35 @@
   },
   "homepage": "https://github.com/kuzzleio/espresso-logic-minimizer#readme",
   "scripts": {
+    "install": "node-gyp-build",
     "configure": "node-gyp configure",
-    "build": "node-gyp build"
+    "build": "node-gyp build",
+    "prebuild": "prebuildify --napi --strip --tag-libc"
   },
   "dependencies": {
-    "bindings": "1.5.0",
     "debug": "4.4.3",
-    "nan": "2.23.1",
+    "node-addon-api": "8.9.1",
+    "node-gyp-build": "4.8.4",
     "tmp": "0.2.5"
   },
   "devDependencies": {
-    "node-gyp": "12.1.0",
+    "node-gyp": "13.0.1",
+    "prebuildify": "6.0.1",
     "semantic-release-config-kuzzle": "1.1.2"
   },
+  "files": [
+    "index.js",
+    "binding.gyp",
+    "bridge",
+    "espresso-src",
+    "prebuilds",
+    "man",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=20.0.0 <25.0.0"
   },
+  "packageManager": "pnpm@10.32.0",
   "license": "MIT"
 }
