@@ -88,7 +88,7 @@ jobs:
         working-directory: ${{ runner.temp }}/consumer
         run: |
           cp "$GITHUB_WORKSPACE/test/index.test.js" .
-          sed -i.bak "s#require(\"..\")#require(\"kuzzle-espresso-logic-minimizer\")#" index.test.js
+          sed -i.bak "s#require('..')#require('kuzzle-espresso-logic-minimizer')#" index.test.js
           node --test index.test.js
 
   # Differential test against the last NAN release: same seeded operations,
@@ -153,5 +153,5 @@ jobs:
             npm install --no-audit --no-fund /src/kuzzle-espresso-logic-minimizer-*.tgz &&
             test -f node_modules/kuzzle-espresso-logic-minimizer/build/Release/EspressoLogicMinimizer.node &&
             cp /src/test/index.test.js . &&
-            sed -i 's#require(\"..\")#require(\"kuzzle-espresso-logic-minimizer\")#' index.test.js &&
+            sed -i \"s#require('..')#require('kuzzle-espresso-logic-minimizer')#\" index.test.js &&
             node --test index.test.js"
