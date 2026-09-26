@@ -1,5 +1,5 @@
 const
-  EspressoLogicMinimizer = require('bindings')('EspressoLogicMinimizer'),
+  EspressoLogicMinimizer = require('node-gyp-build')(__dirname),
   crypto = require('crypto'),
   debug = require('debug')('espresso'),
   fs = require('fs'),
