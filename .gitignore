@@ -39,3 +39,6 @@ bin/
 
 # Dependencies
 node_modules/
+
+# Prebuilt binaries, built by CI and published inside the tarball
+prebuilds/

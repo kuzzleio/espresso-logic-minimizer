@@ -1,3 +1,9 @@
+## [2.3.0-beta.1](https://github.com/kuzzleio/espresso-logic-minimizer/compare/v2.2.0...v2.3.0-beta.1) (2026-09-26)
+
+### Features
+
+* ship prebuilt N-API binaries instead of compiling on install ([43671cf](https://github.com/kuzzleio/espresso-logic-minimizer/commit/43671cf80a6f27d67a7fa0ed7945b518eb9ff2af)), closes [kuzzleio/kuzzle#2839](https://github.com/kuzzleio/kuzzle/issues/2839)
+
 ## [2.2.0](https://github.com/kuzzleio/espresso-logic-minimizer/compare/v2.1.1...v2.2.0) (2025-12-02)
 
 

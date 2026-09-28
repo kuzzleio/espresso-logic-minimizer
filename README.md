@@ -6,7 +6,13 @@ The original source code comes from the [University of California, Berkeley](htt
 
 # Install
 
-`npm install espresso-logic-minimizer`
+`npm install kuzzle-espresso-logic-minimizer`
+
+The package ships prebuilt N-API binaries for `linux-x64`, `linux-arm64`
+(glibc 2.31+), `darwin-x64` and `darwin-arm64`, valid for every supported Node
+major: on those platforms `npm install` compiles nothing and needs no compiler.
+Elsewhere (Alpine/musl, other architectures) it falls back to building from
+source with `node-gyp`, which requires Python and a C/C++ toolchain.
 
 # API
 
