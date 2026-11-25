@@ -1,3 +1,9 @@
+## [2.3.1](https://github.com/kuzzleio/espresso-logic-minimizer/compare/v2.3.0...v2.3.1) (2026-11-25)
+
+### Bug Fixes
+
+* **deps:** bump tmp to 0.2.7 (GHSA-ph9p-34f9-6g65) ([4769e44](https://github.com/kuzzleio/espresso-logic-minimizer/commit/4769e4421384052e3098a64fad56fc6dcbc102a9))
+
 ## [2.3.1-beta.1](https://github.com/kuzzleio/espresso-logic-minimizer/compare/v2.3.0...v2.3.1-beta.1) (2026-11-25)
 
 ### Bug Fixes
