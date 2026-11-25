@@ -1,7 +1,7 @@
 {
   "name": "kuzzle-espresso-logic-minimizer",
   "main": "index.js",
-  "version": "2.3.0",
+  "version": "2.3.1-beta.1",
   "author": "Sebastien Cottinet (https://github.com/scottinet)",
   "description": "A NodeJS bridge to the Espresso heuristic logic minimizer",
   "keywords": [
@@ -33,7 +33,7 @@
     "debug": "4.4.3",
     "node-addon-api": "8.5.0",
     "node-gyp-build": "4.8.4",
-    "tmp": "0.2.5"
+    "tmp": "0.2.7"
   },
   "devDependencies": {
     "@semantic-release/npm": "13.1.5",
